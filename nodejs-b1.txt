@@ -17,7 +17,6 @@ email varchar(30),
 age integer,
 gender integer,
 address varchar(100)
-
 );
 # thêm column vào table
 ALTER TABLE users 

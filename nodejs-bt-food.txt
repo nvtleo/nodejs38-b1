@@ -1,0 +1,244 @@
+CREATE TABLE user (
+  user_id INT NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (user_id)
+);
+
+CREATE TABLE restaurant (
+  res_id INT NOT NULL AUTO_INCREMENT,
+  res_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (res_id)
+);
+
+CREATE TABLE food_type (
+  type_id INT NOT NULL AUTO_INCREMENT,
+  type_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (type_id)
+);
+
+#food
+
+CREATE TABLE food (
+  food_id INT NOT NULL AUTO_INCREMENT,
+  food_name VARCHAR(255) NOT NULL,
+  image VARCHAR(255),
+  price FLOAT NOT NULL,
+  type_id INT NOT NULL,
+  PRIMARY KEY (food_id),
+  FOREIGN KEY (type_id) REFERENCES food_type (type_id)
+);
+
+CREATE TABLE rate_res (
+  user_id INT NOT NULL,
+  res_id INT NOT NULL,
+  amount INT NOT NULL,
+  date_rate DATETIME NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (user_id),
+  FOREIGN KEY (res_id) REFERENCES restaurant (res_id)
+)
+
+CREATE TABLE like_res (
+  user_id INT NOT NULL,
+  res_id INT NOT NULL,
+  date_like DATETIME NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (user_id),
+  FOREIGN KEY (res_id) REFERENCES restaurant (res_id)
+);
+
+CREATE TABLE orders (
+  user_id INT NOT NULL,
+  food_id INT NOT NULL,
+  amount INT NOT NULL,
+  code VARCHAR(255),
+  arr_sub_id VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES user (user_id),
+  FOREIGN KEY (food_id) REFERENCES food (food_id)
+);
+
+CREATE TABLE sub_food (
+  sub_id INT NOT NULL AUTO_INCREMENT,
+  sub_name VARCHAR(255) NOT NULL,
+  sub_price FLOAT NOT NULL,
+  descs VARCHAR(255),
+  PRIMARY KEY (sub_id)
+);
+
+# thêm data
+INSERT INTO user (full_name, email, password)
+VALUES
+('John Doe', 'johndoe@example.com', 'password'),
+('Jane Doe', 'janedoe@example.com', 'password'),
+('Mary Smith', 'marysmith@example.com', 'password'),
+('Peter Jones', 'peterjones@example.com', 'password'),
+('David Brown', 'davidbrown@example.com', 'password'),
+('Elizabeth Green', 'elizabethgreen@example.com', 'password'),
+('Michael Williams', 'michaelwilliams@example.com', 'password'),
+('Sarah Johnson', 'sarahjohnson@example.com', 'password'),
+('Thomas Davis', 'thomasdavis@example.com', 'password'),
+('Emily White', 'emilywhite@example.com', 'password'),
+('James Black', 'jamesblack@example.com', 'password'),
+('Caroline Brown', 'carolinebrown@example.com', 'password'),
+('Matthew Green', 'matthewgreen@example.com', 'password'),
+('Jennifer Williams', 'jenniferwilliams@example.com', 'password'),
+('Richard Johnson', 'richardjohnson@example.com', 'password'),
+('Katherine Davis', 'katherinedavis@example.com', 'password');
+
+INSERT INTO restaurant (res_name)
+VALUES
+('Nhà hàng Hương Việt'),
+('Nhà hàng Hồng Kông'),
+('Nhà hàng Nhật Bản'),
+('Nhà hàng Hàn Quốc'),
+('Nhà hàng Ý'),
+('Nhà hàng Pháp'),
+('Nhà hàng Á-Âu'),
+('Nhà hàng Fastfood'),
+('Nhà hàng Buffet');
+
+INSERT INTO food_type (type_name)
+VALUES
+('Món ăn Việt Nam'),
+('Món ăn Trung Quốc'),
+('Món ăn Nhật Bản'),
+('Món ăn Hàn Quốc'),
+('Món ăn Ý'),
+('Món ăn Pháp'),
+('Món ăn Á-Âu'),
+('Món ăn Fastfood'),
+('Món ăn Buffet');
+
+INSERT INTO food (food_name, image, price, type_id)
+VALUES
+('Bún chả', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bun_cha_Ha_Noi.jpg/1200px-Bun_cha_Ha_Noi.jpg', 50000, 1),
+('Phở', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Pho_Bo_Ha_Noi.jpg/1200px-Pho_Bo_Ha_Noi.jpg', 40000, 1),
+('Cơm tấm', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Com_tam_Nha_Trang.jpg/1200px-Com_tam_Nha_Trang.jpg', 30000, 2),
+('Bánh mì', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Banh_mi_pho_ga_Ha_Noi.jpg/1200px-Banh_mi_pho_ga_Ha_Noi.jpg', 20000, 3),
+('Bánh cuốn', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Banh_cuon_Ha_Noi.jpg/1200px-Banh_cuon_Ha_Noi.jpg', 35000, 4),
+('Bánh xèo', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Bun_cha_Ha_Noi.jpg/1200px-Bun_cha_Ha_Noi.jpg', 40000, 5),
+('Chả giò', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Cha_gio.jpg/1200px-Cha_gio.jpg', 50000, 6),
+('Bánh mì chả cá', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Banh_mi_pho_ga_Ha_Noi.jpg/1200px-Banh_mi_pho_ga_Ha_Noi.jpg', 20000, 5),
+('Bún bò Huế', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Bunbohue.jpg/1200px-Bunbohue.jpg', 60000, 6);
+
+INSERT INTO sub_food (sub_name, sub_price, descs)
+VALUES
+('Thêm trứng', 5000, 'Thêm một quả trứng luộc hoặc trứng ốp la'),
+('Thêm thịt', 10000, 'Thêm một phần thịt lợn nướng hoặc thịt bò'),
+('Thêm rau', 5000, 'Thêm một phần rau sống hoặc rau muống chần'),
+('Thêm nước chấm', 3000, 'Thêm một bát nước chấm chua ngọt'),
+('Thêm hành phi', 2000, 'Thêm một ít hành phi thơm giòn'),
+('Thêm ớt', 1000, 'Thêm vài lát ớt tươi cay nồng'),
+('Thêm quẩy', 5000, 'Thêm một đĩa quẩy giòn rụm'),
+('Thêm đồ uống', 10000, 'Thêm một chai nước ngọt hoặc một ly trà đá'),
+('Thêm tráng miệng', 5000, 'Thêm một phần trái cây hoặc chè');
+
+INSERT INTO rate_res (user_id, res_id, amount, date_rate)
+VALUES
+(1, 1, 5, '2023-07-20 12:00:00'),
+(2, 2, 4, '2023-07-21 13:00:00'),
+(3, 3, 3, '2023-07-22 14:00:00'),
+(4, 4, 2, '2023-07-23 15:00:00'),
+(5, 5, 1, '2023-07-24 16:00:00'),
+(6, 6, 5, '2023-07-25 12:00:00'),
+(7, 7, 4, '2023-07-26 13:00:00'),
+(8, 8, 3, '2023-07-27 14:00:00'),
+(9, 9, 2, '2023-07-28 15:00:00'),
+(10, 1, 5, '2023-07-20 12:00:00'),
+(11, 1, 5, '2023-07-20 12:00:00'),
+(12, 1, 5, '2023-07-20 12:00:00'),
+(13, 2, 4, '2023-07-20 12:00:00'),
+(14, 2, 3, '2023-07-20 12:00:00'),
+(15, 2, 2, '2023-07-20 12:00:00'),
+(16, 2, 1, '2023-07-20 12:00:00');
+
+
+INSERT INTO orders (user_id, food_id,amount, code, arr_sub_id)
+VALUES
+(1, 2, 1, 'OD12345', '1,2'),
+(2, 5, 1, 'OD67890', '3'),
+(3, 8, 2, 'OD09876', NULL),
+(4, 1, 4, 'OD54321', '4,5,6'),
+(5, 4, 5, 'OD11111', NULL),
+(6, 7, 2, 'OD22222', NULL),
+(7, 1, 1, 'OD33333', '7,8'),
+(8, 3, 4, 'OD44444', '9,8'),
+(9, 6, 5, 'OD55555', NULL),
+(10, 9, 6, 'OD66666', '1,2'),
+(11, 1, 1, 'OD77777', '3,4'),
+(12, 1, 2, 'OD88888', '5,6'),
+(13, 2, 3, 'OD99999', '7,8'),
+(14, 3, 4, 'ODAAA00', '9,2'),
+(15, 1, 5, 'ODABB01', NULL),
+(16, 5, 6, 'ODACC02', '2,2');
+
+INSERT INTO orders (user_id, food_id,amount, code, arr_sub_id)
+VALUES
+(16,5,8,'ACBMDG','2,2');
+INSERT INTO like_res (user_id, res_id, date_like)
+VALUES
+(1, 1, '2023-08-01 12:00:00'),
+(2, 2, '2023-08-02 13:00:00'),
+(3, 3, '2023-08-03 14:00:00'),
+(4, 4, '2023-08-04 15:00:00'),
+(5, 5, '2023-08-05 16:00:00'),
+(6, 6, '2023-08-05 16:00:00'),
+(7, 7, '2023-08-05 16:00:00'),
+(8, 9, '2023-08-05 16:00:00'),
+(10,1 , '2023-08-05 16:00:00'),
+(11, 2, '2023-08-05 16:00:00'),
+(12, 3, '2023-08-05 16:00:00'),
+(13, 4, '2023-08-05 16:00:00'),
+(14, 1, '2023-08-05 16:00:00'),
+(1, 2, '2023-08-05 16:00:00'),
+(12, 2, '2023-08-05 16:00:00'),
+(13, 2, '2023-08-05 16:00:00'),
+(14, 1, '2023-08-05 16:00:00'),
+(15, 2, '2023-08-05 16:00:00'),
+(12, 1, '2023-08-05 16:00:00'),
+(16, 1, '2023-08-05 16:00:00');
+
+
+
+# 1. tìm 5 người like nhiều nhất
+
+SELECT user.user_id, full_name, COUNT(*) AS num_likes
+FROM like_res
+JOIN user ON user.user_id = like_res.user_id
+GROUP BY user_id
+ORDER BY num_likes DESC
+LIMIT 5;
+
+#2. tìm 2 nhà hàng được like nhiều nhất
+
+SELECT lr.res_id, r.res_name, COUNT(*) AS num_likes
+FROM like_res lr
+JOIN restaurant r ON lr.res_id = r.res_id
+GROUP BY lr.res_id
+ORDER BY num_likes DESC
+LIMIT 2;
+
+#3. tìm người đặt hàng nhiều nhất
+SELECT user.user_id, full_name, COUNT(*) AS num_orders
+FROM orders
+JOIN user ON user.user_id = orders.user_id
+GROUP BY user_id
+ORDER BY num_orders DESC
+LIMIT 1;
+
+INSERT INTO user (full_name, email, password)
+VALUES
+('no like1', 'newcustomer1@example.com', 'password'),
+('no like 2', 'newcustomer2@example.com', 'password');
+
+# 4 tìm người không hoạt động
+
+SELECT user.user_id, full_name, email
+FROM user
+WHERE user.user_id NOT IN (
+    SELECT user_id FROM like_res
+) AND user.user_id NOT IN (
+    SELECT user_id FROM orders
+);
+
+
